@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>智能剧本</title>
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <link rel="stylesheet" href="/static/css/login.css" type="text/css" media="all"/>
+    <link rel="stylesheet" href="/static/css/fontawesome-all.css">
+    <link href="http://maxcdn.bootstrapcdn.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i"
+          rel="stylesheet">
+    <link href="http://maxcdn.bootstrapcdn.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<div id="bg">
+    <canvas></canvas>
+    <canvas></canvas>
+    <canvas></canvas>
+</div>
+<h1>智&nbsp;&nbsp;能&nbsp;&nbsp;剧&nbsp;&nbsp;本</h1>
+<div class="sub-main-w3">
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <h2>{{ error_msg }}
+            <i class="fas fa-level-down-alt"></i>
+        </h2>
+        <div class="form-style-agile">
+            <label>
+                <i class="fas fa-user"></i>
+                用户
+            </label>
+            <input placeholder="请输入用户" name="Name" type="text" required="required">
+        </div>
+        <div class="form-style-agile">
+            <label>
+                <i class="fas fa-unlock-alt"></i>
+                密码
+            </label>
+            <input placeholder="请输入密码" name="Password" type="password" required="required">
+        </div>
+        <div class="wthree-text">
+            <ul>
+                <li>
+                    <label class="anim">
+                        <input name="IsLogin" type="checkbox" class="checkbox">
+                        <span>保持登录</span>
+                    </label>
+                </li>
+                <li>
+                    <a href="#">忘记密码?</a>
+                </li>
+            </ul>
+        </div>
+        <input type="submit" value="登&nbsp;&nbsp;录">
+    </form>
+</div>
+
+<div class="footer">
+    <p>Copyright &copy; 2018.WLGD All rights reserved.</p>
+</div>
+
+<script src="/static/js/jquery-3.3.1.min.js"></script>
+<script src="/static/js/canva_moving_effect.js"></script>
+
+</body>
+
+</html>
