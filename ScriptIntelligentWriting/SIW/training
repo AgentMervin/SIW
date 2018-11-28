@@ -1,12 +1,9 @@
 # coding: utf-8
 
-
-
 from distutils.version import LooseVersion
 import warnings
 import tensorflow as tf
 import helper
-import numpy as np
 import numpy as np
 from tensorflow.contrib import seq2seq
 
@@ -21,6 +18,7 @@ def create_lookup_tables(text):
     vocab_to_int = {w: i for i, w in enumerate(set(text))}
     int_to_vocab = {i: w for i, w in enumerate(set(text))}
     return vocab_to_int, int_to_vocab
+
 
 def token_lookup():
     """
@@ -40,6 +38,7 @@ def token_lookup():
         '--': '||Dash||',
         "\n": '||Return||'
     }
+
 
 def get_inputs():
     """
@@ -70,6 +69,7 @@ def get_init_cell(batch_size, rnn_size):
     initial_state = cell.zero_state(batch_size, tf.float32)
     initial_state = tf.identity(initial_state, name='initial_state')
     return cell, initial_state
+
 
 def get_embed(input_data, vocab_size, embed_dim):
     """
@@ -114,6 +114,7 @@ def build_nn(cell, rnn_size, input_data, vocab_size, embed_dim):
     logits = tf.contrib.layers.fully_connected(outputs, vocab_size, activation_fn=None)
     return logits, final_state
 
+
 def get_batches(int_text, batch_size, seq_length):
     """
     Return batches of input and target
@@ -135,6 +136,7 @@ def get_batches(int_text, batch_size, seq_length):
         result.append([inputs, targets])
     return np.array(result)
 
+
 def pick_word(probabilities, int_to_vocab):
     """
     Pick the next word in the generated text
@@ -144,6 +146,7 @@ def pick_word(probabilities, int_to_vocab):
     """
     # TODO: Implement Function
     return int_to_vocab[np.argmax(probabilities)]
+
 
 def get_tensors(loaded_graph):
     """
@@ -159,8 +162,7 @@ def get_tensors(loaded_graph):
     return inputs, init_state, final_state, probs
 
 
-
-def generate(dataset,length):
+def generate(dataset, length):
     text = dataset
 
     # ## Explore the Data
@@ -205,9 +207,7 @@ def generate(dataset,length):
     else:
         print('Default GPU Device: {}'.format(tf.test.gpu_device_name()))
 
-
     helper.preprocess_and_save_data(dataset, token_lookup, create_lookup_tables)
-
 
     # ### Lookup Table
     # To create a word embedding, you first need to transform the words to ids.  In this function, create two dictionaries:
@@ -232,7 +232,7 @@ def generate(dataset,length):
 
     # In[32]:
     # Number of Epochs
-    num_epochs= 100
+    num_epochs = 100
     # Batch Size
     batch_size = 128
     # RNN Size
@@ -300,10 +300,10 @@ def generate(dataset,length):
 
     helper.save_params((seq_length, save_dir))
 
-    _  , vocab_to_int, int_to_vocab, token_dict = helper.load_preprocess()
+    _, vocab_to_int, int_to_vocab, token_dict = helper.load_preprocess()
     seq_length, load_dir = helper.load_params()
-    get_length =length
-    prime_word ='Stark'
+    get_length = length
+    prime_word = 'Stark'
     loaded_graph = tf.Graph()
     with tf.Session(graph=loaded_graph) as sess:
         # Load saved model
@@ -340,10 +340,3 @@ def generate(dataset,length):
         tv_script = tv_script.replace('\n ', '\n')
         tv_script = tv_script.replace('( ', '(')
         return tv_script
-
-
-
-
-
-
-
