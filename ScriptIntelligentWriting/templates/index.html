@@ -145,19 +145,26 @@
                                 {% csrf_token %}
                                 <fieldset>
                                     <div class="form-group"
-                                         style="margin-bottom: 39px !important; margin-top: 38px !important;">
-                                        <label for="Num" class="form-label">剧本字数</label>
-                                        <input type="number" class="form-control" id="Num" name="Num" value="1000">
+                                         style="margin-bottom: 14px !important; margin-top: 20px !important;">
+                                        <label for="Length" class="form-label">剧本字数</label>
+                                        <input type="number" class="form-control" id="Length" name="Length"
+                                               value="1000">
                                     </div>
                                     <div class="form-group"
-                                         style="margin-bottom: 39px !important; margin-top: 38px !important;">
+                                         style="margin-bottom: 14px !important; margin-top: 20px !important;">
+                                        <label for="Protagonist" class="form-label">剧本主角</label>
+                                        <input type="text" class="form-control" id="Protagonist" name="Protagonist"
+                                               value="主角">
+                                    </div>
+                                    <div class="form-group"
+                                         style="margin-bottom: 14px !important; margin-top: 20px !important;">
                                         <a class="file btn btn-default" style="width: 100%;">上传剧本
                                             <input onchange="uploadScript()" type="file" name="Files"
                                                    multiple="multiple">
                                         </a>
                                     </div>
                                     <div class="form-group"
-                                         style="margin-bottom: 39px !important; margin-top: 38px !important;">
+                                         style="margin-bottom: 14px !important; margin-top: 20px !important;">
                                         <button onclick="creatScript()" class="btn btn-default" style="width: 100%;">
                                             生成剧本
                                         </button>

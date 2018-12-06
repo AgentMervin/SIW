@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from SIW.models import TbFile, TbUser
 from datetime import datetime
+import training
 
 
 def login(request):
@@ -33,7 +34,8 @@ def upload(request):
                     for chunk in file.chunks():
                         destination.write(chunk)
                     TbFile.objects.create(file_name=str(file.name).split(".")[0],
-                                          file_type=str(file.name).split(".")[1],
+                                          file_type="" if len(str(file.name).split(".")) == 1 else
+                                          str(file.name).split(".")[1],
                                           file_date=datetime.now(),
                                           file_size=str(file.size / 1000) + "K",
                                           file_path='/Data/')
@@ -44,22 +46,21 @@ def upload(request):
 
 def creat(request, select_list):
     if request.method == "POST":
-        num = request.POST['Num']
-        if num == "" or select_list == "null":
-            error_msg = "剧本字数或剧本选择不能为空"
+        path = ""
+        length = request.POST['Length']
+        protagonist = request.POST['Protagonist']
+        if length == "" or protagonist == "" or select_list == "null":
+            error_msg = "剧本字数、剧本主角、剧本选择不能为空"
             result = ""
         else:
             id_list = list(map(int, str(select_list).split(",")))
             data_list = TbFile.objects.filter(file_id__in=id_list)
-
-            '''
-            说明：在此处调用剧本续写的函数 
-            参数 num（用户要生成的剧本字数） 数据类型为字符串 如果需要整型可以转换一下
-            参数 data_list（用户选择的剧本数据源）数据类型为对象集合 使用for in 可以遍历data_list的对象 这样就可以获取到路径
-            返回 可以是字符串或路径 如果是字符串可以将其赋值给result 如果是路径可以根据路径读文件后赋值给result
-            '''
+            for data in data_list:
+                path += (data.file_path + data.file_name + "." + data.file_type + "|") if data.file_type != "" else (
+                        data.file_path + data.file_name + data.file_type + "|")
+            path = path[:-1]
             error_msg = "剧本续写执行完毕"
-            result = "剧本续写新内容！"
+            result = training.generate(path, length, protagonist)
     files = TbFile.objects.all()
     return render(request, "index.html", {'files': files, 'result': result, 'error_msg': error_msg})
 
@@ -100,7 +101,3 @@ def usermanage(request):
 
 def page_not_found(request):
     return render(request, "404.html")
-
-
-def page_inter_error(request):
-    return render(request, "500.html")
